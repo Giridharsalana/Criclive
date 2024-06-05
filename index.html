@@ -3,11 +3,89 @@
 
 <head>
     <title>CricLive</title>
+    <style>
+        body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+         #streamSelector {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            padding: 3px;
+            font-size: 16px;
+            border: 1px solid #9a9898;
+            border-radius: 8%;
+            background-color: rgb(255, 255, 255);
+            color: #333;
+            /* appearance: none; */
+            cursor: pointer;
+            outline: none;
+        }
+
+        #streamSelector:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+    </style>
+    <script>
+        function loadStream() {
+            var savedStream = localStorage.getItem('selectedStream');
+            if (savedStream) {
+                return savedStream;
+            } else {
+                return "https://player003.vip/embed2.php?id=starsp1";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var iframe = document.getElementById("live");
+            var selector = document.getElementById("streamSelector");
+            var stream = loadStream();
+            iframe.src = stream;
+            selector.value = stream;
+        });
+
+        function changeStream() {
+            var selector = document.getElementById("streamSelector");
+            var iframe = document.getElementById("live");
+            var selectedStream = selector.value;
+            iframe.src = selectedStream;
+            localStorage.setItem('selectedStream', selectedStream);
+        }
+    </script>
 </head>
 
-<body style="height: 100%; margin: 0px; overflow: hidden;">
-    <iframe id="live" src="https://player003.vip/embed2.php?id=willow&q=Willow Cricket"" frameborder="0"
-        style="width: 100%; height: 100%;"></iframe>
+<body>
+    <select id="streamSelector" onchange="changeStream()">
+        <option value="https://player003.vip/embed2.php?id=starsp1">Star Sports 1</option>
+        <option value="https://player003.vip/embed2.php?id=starsp2">Star Sports 2</option>
+        <option value="https://player003.vip/embed2.php?id=willow&q=Willow Cricket">Willow Cricket</option>
+    </select>
+
+    <iframe id="live" src="https://player003.vip/embed2.php?id=starsp1" sandbox="allow-scripts allow-same-origin"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 </body>
 
 </html>
