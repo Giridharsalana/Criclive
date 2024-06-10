@@ -4,6 +4,7 @@
 <head>
     <title>CricLive</title>
     <link rel="shortcut icon" type="image/ico" href="assets/favicon/favicon.ico" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; child-src 'self' https://giridharsalana.github.io/Criclive;">
     <style>
         body {
             height: 100%;
@@ -75,7 +76,6 @@
             localStorage.setItem('selectedStream', selectedStream);
         }
     </script>
-    <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'self'">
 </head>
 
 <body>
