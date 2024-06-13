@@ -18,11 +18,12 @@
         }
 
         iframe {
+            /* This negative values are added to fix the iframe margins in main page.*/
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: -8px;
+            left: -8px;
+            width: calc(100% + 16px);
+            height: calc(100% + 16px);
             border: none;
         }
 
