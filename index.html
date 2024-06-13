@@ -48,6 +48,10 @@
             border-color: #007bff;
             box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         }
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
 
     </style>
     <script>
@@ -75,6 +79,27 @@
             iframe.src = selectedStream;
             localStorage.setItem('selectedStream', selectedStream);
         }
+        
+        const TimeOut_Time = 5000;
+        document.addEventListener("DOMContentLoaded", function() {
+        var selectElement = document.getElementById("streamSelector");
+        var hideTimeout;
+    
+        function resetTimeout() {
+            if (hideTimeout) {
+                clearTimeout(hideTimeout);
+            }
+            hideTimeout = setTimeout(function() {
+                selectElement.classList.add("hidden");
+            }, TimeOut_Time);
+        }
+    
+        document.addEventListener("mousemove", resetTimeout);
+        document.addEventListener("keydown", resetTimeout);
+        document.addEventListener("click", resetTimeout);
+    
+        resetTimeout();
+    });
     </script>
 </head>
 
