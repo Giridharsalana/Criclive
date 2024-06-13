@@ -85,7 +85,8 @@
             var selectElement = document.getElementById("streamSelector");
             var hideTimeout;
         
-            function resetTimeout() {
+            function resetTimeout(event) {
+                console.log(event.type);
                 selectElement.classList.remove("hidden");
                 if (hideTimeout) {
                     clearTimeout(hideTimeout);
@@ -101,7 +102,6 @@
             ];
         
             events.forEach(function(event) {
-                console.info(event.type);
                 document.addEventListener(event, resetTimeout);
             });
         
