@@ -101,6 +101,7 @@
             ];
         
             events.forEach(function(event) {
+                console.info(event.type);
                 document.addEventListener(event, resetTimeout);
             });
         
