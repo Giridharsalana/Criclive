@@ -89,38 +89,38 @@
             localStorage.setItem('selectedStream', selectedStream);
         }
         
-        const TimeOut_Time = 5000;
-        document.addEventListener("DOMContentLoaded", function() {
-            var selectElement = document.getElementById('overlay');
-            var hideTimeout;
+        // const TimeOut_Time = 5000;
+        // document.addEventListener("DOMContentLoaded", function() {
+        //     var selectElement = document.getElementById('overlay');
+        //     var hideTimeout;
         
-            function resetTimeout(event) {
-                console.log(event.type);
-                selectElement.classList.remove("hidden");
-                if (hideTimeout) {
-                    clearTimeout(hideTimeout);
-                }
-                hideTimeout = setTimeout(function() {
-                    selectElement.classList.add("hidden");
-                }, TimeOut_Time);
-            }
+        //     function resetTimeout(event) {
+        //         console.log(event.type);
+        //         selectElement.classList.remove("hidden");
+        //         if (hideTimeout) {
+        //             clearTimeout(hideTimeout);
+        //         }
+        //         hideTimeout = setTimeout(function() {
+        //             selectElement.classList.add("hidden");
+        //         }, TimeOut_Time);
+        //     }
         
-            var events = [
-                "mousemove", "mousedown", "mouseup", "wheel", "keydown", 
-                "keyup", "keypress", "touchstart", "touchmove", "touchend"
-            ];
+        //     var events = [
+        //         "mousemove", "mousedown", "mouseup", "wheel", "keydown", 
+        //         "keyup", "keypress", "touchstart", "touchmove", "touchend"
+        //     ];
         
-            events.forEach(function(event) {
-                selectElement.addEventListener(event, resetTimeout);
-            });
+        //     events.forEach(function(event) {
+        //         selectElement.addEventListener(event, resetTimeout);
+        //     });
         
-            resetTimeout();
-        });
+        //     resetTimeout();
+        // });
     </script>
 </head>
 
 <body>
-    <div id="overlay"></div>
+    <!--<div id="overlay"></div> -->
     
     <select id="streamSelector" onchange="changeStream()">
         <option value="https://stream.crichd.vip/update/star.php">Star Sports - Eng</option>
