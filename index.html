@@ -95,9 +95,14 @@
                 }, TimeOut_Time);
             }
         
-            document.addEventListener("mousemove", resetTimeout);
-            document.addEventListener("keydown", resetTimeout);
-            document.addEventListener("click", resetTimeout);
+            var events = [
+                "mousemove", "mousedown", "mouseup", "wheel", "keydown", 
+                "keyup", "keypress", "touchstart", "touchmove", "touchend"
+            ];
+        
+            events.forEach(function(event) {
+                document.addEventListener(event, resetTimeout);
+            });
         
             resetTimeout();
         });
