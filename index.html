@@ -53,6 +53,15 @@
             pointer-events: none;
         }
 
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999; /* Ensure it's above other content */
+            pointer-events: all; /* Make sure it captures events */
+        }
     </style>
     <script>
         function loadStream() {
@@ -111,6 +120,8 @@
 </head>
 
 <body>
+    <div id="overlay"></div>
+    
     <select id="streamSelector" onchange="changeStream()">
         <option value="https://stream.crichd.vip/update/star.php">Star Sports - Eng</option>
         <option value="https://stream.crichd.vip/update/star1hi.php">Star Sports - Hin</option>
