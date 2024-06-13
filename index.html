@@ -82,24 +82,25 @@
         
         const TimeOut_Time = 5000;
         document.addEventListener("DOMContentLoaded", function() {
-        var selectElement = document.getElementById("streamSelector");
-        var hideTimeout;
-    
-        function resetTimeout() {
-            if (hideTimeout) {
-                clearTimeout(hideTimeout);
+            var selectElement = document.getElementById("streamSelector");
+            var hideTimeout;
+        
+            function resetTimeout() {
+                selectElement.classList.remove("hidden");
+                if (hideTimeout) {
+                    clearTimeout(hideTimeout);
+                }
+                hideTimeout = setTimeout(function() {
+                    selectElement.classList.add("hidden");
+                }, TimeOut_Time);
             }
-            hideTimeout = setTimeout(function() {
-                selectElement.classList.add("hidden");
-            }, TimeOut_Time);
-        }
-    
-        document.addEventListener("mousemove", resetTimeout);
-        document.addEventListener("keydown", resetTimeout);
-        document.addEventListener("click", resetTimeout);
-    
-        resetTimeout();
-    });
+        
+            document.addEventListener("mousemove", resetTimeout);
+            document.addEventListener("keydown", resetTimeout);
+            document.addEventListener("click", resetTimeout);
+        
+            resetTimeout();
+        });
     </script>
 </head>
 
