@@ -27,7 +27,7 @@
             border: none;
         }
 
-         #streamSelector {
+        #streamSelector {
             position: absolute;
             top: 10px;
             left: 50%;
@@ -48,6 +48,7 @@
             border-color: #007bff;
             box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         }
+
         .hidden {
             opacity: 0;
             pointer-events: none;
@@ -59,19 +60,66 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 9999; /* Ensure it's above other content */
-            pointer-events: all; /* Make sure it captures events */
+            z-index: 9999;
+            /* Ensure it's above other content */
+            pointer-events: all;
+            /* Make sure it captures events */
         }
     </style>
     <script>
+        const Main_Link = "https://giridharsalana.netlify.app";
+        const INACTIVITY_TIMEOUT = 5000;
+
         function loadStream() {
-            var savedStream = localStorage.getItem('selectedStream');
-            if (savedStream) {
-                return savedStream;
-            } else {
-                return "https://example.com";
-            }
+            var savedStream = localStorage.getItem("selectedStream");
+            return savedStream || Main_Link;
         }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const iframe = document.getElementById("live");
+            const selector = document.getElementById("streamSelector");
+            const stream = loadStream();
+            iframe.src = stream;
+            selector.value = stream;
+
+            let inactivityTimeout;
+
+            const resetInactivityTimeout = () => {
+                // Show the selector on activity
+                selector.classList.remove("hidden");
+
+                // Clear previous timeout
+                if (inactivityTimeout) {
+                    clearTimeout(inactivityTimeout);
+                }
+
+                // Set a timeout to hide the selector
+                inactivityTimeout = setTimeout(() => {
+                    selector.classList.add("hidden");
+                }, INACTIVITY_TIMEOUT);
+            };
+
+            // Add event listeners for activity detection
+            const activityEvents = [
+                "mousemove",
+                "mousedown",
+                "mouseup",
+                "wheel",
+                "keydown",
+                "keyup",
+                "keypress",
+                "touchstart",
+                "touchmove",
+                "touchend"
+            ];
+
+            activityEvents.forEach((event) => {
+                document.addEventListener(event, resetInactivityTimeout);
+            });
+
+            // Initialize timeout
+            resetInactivityTimeout();
+        });
 
         document.addEventListener("DOMContentLoaded", function () {
             var iframe = document.getElementById("live");
@@ -86,51 +134,30 @@
             var iframe = document.getElementById("live");
             var selectedStream = selector.value;
             iframe.src = selectedStream;
-            localStorage.setItem('selectedStream', selectedStream);
+            localStorage.setItem("selectedStream", selectedStream);
         }
-        
-        // const TimeOut_Time = 5000;
-        // document.addEventListener("DOMContentLoaded", function() {
-        //     var selectElement = document.getElementById('overlay');
-        //     var hideTimeout;
-        
-        //     function resetTimeout(event) {
-        //         console.log(event.type);
-        //         selectElement.classList.remove("hidden");
-        //         if (hideTimeout) {
-        //             clearTimeout(hideTimeout);
-        //         }
-        //         hideTimeout = setTimeout(function() {
-        //             selectElement.classList.add("hidden");
-        //         }, TimeOut_Time);
-        //     }
-        
-        //     var events = [
-        //         "mousemove", "mousedown", "mouseup", "wheel", "keydown", 
-        //         "keyup", "keypress", "touchstart", "touchmove", "touchend"
-        //     ];
-        
-        //     events.forEach(function(event) {
-        //         selectElement.addEventListener(event, resetTimeout);
-        //     });
-        
-        //     resetTimeout();
-        // });
+
     </script>
 </head>
 
 <body>
-    <!--<div id="overlay"></div> -->
-    
     <select id="streamSelector" onchange="changeStream()">
-        <option value="https://cdn.crichdplays.ru/embed2.php?id=starsp">Star Sports - Eng</option>
-<!--         <option value="https://stream.crichd.vip/update/star1hi.php">Star Sports - Hin</option> -->
-        <option value="https://cdn.crichdplays.ru/embed2.php?id=willow">Willow Cricket</option>
-<!--         <option value="https://stream.crichd.vip/update/ptv.php">PTV Sports</option> -->
-        <option value="https://cdn.crichdplays.ru/embed2.php?id=astrocric">Astro Cricket</option>
+        <option value="https://cdn.crichdplays.ru/embed2.php?id=starsp">
+            Star Sports - Eng
+        </option>
+        <!--         <option value="https://stream.crichd.vip/update/star1hi.php">Star Sports - Hin</option> -->
+        <option value="https://cdn.crichdplays.ru/embed2.php?id=willow">
+            Willow Cricket
+        </option>
+        <!--         <option value="https://stream.crichd.vip/update/ptv.php">PTV Sports</option> -->
+        <option value="https://cdn.crichdplays.ru/embed2.php?id=astrocric">
+            Astro Cricket
+        </option>
     </select>
 
-    <iframe id="live" src="https://stream.crichd.vip/update/star.php" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+    <iframe id="live" src="https://giridharsalana.netlify.app"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 </body>
 
 </html>
