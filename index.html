@@ -59,12 +59,9 @@
 
       #eventOverlay {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            z-index: 999; /* Ensure it's above the iframe but below the selector */
+            z-index: 999; /* Below the selector */
+            background: transparent; /* Transparent overlay */
+            pointer-events: none;
         }
     </style>
     <script>
@@ -85,6 +82,15 @@
         selector.value = stream;
 
         let inactivityTimeout;
+
+        // Function to position the overlay exactly over the stream selector
+        function positionOverlay() {
+          const rect = selector.getBoundingClientRect();
+          overlay.style.width = `${rect.width}px`;
+          overlay.style.height = `${rect.height}px`;
+          overlay.style.top = `${rect.top}px`;
+          overlay.style.left = `${rect.left}px`;
+        }
 
         const resetInactivityTimeout = () => {
           // Show the selector on activity
