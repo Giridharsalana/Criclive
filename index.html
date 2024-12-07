@@ -1,165 +1,217 @@
 <!DOCTYPE html>
 <html style="height: 100%;">
-
-<head>
+  <head>
     <title>CricLive</title>
-    <link rel="shortcut icon" type="image/ico" href="assets/favicon/favicon.ico" />
+    <link
+      rel="shortcut icon"
+      type="image/ico"
+      href="assets/favicon/favicon.ico"
+    />
     <style>
-        body {
-            height: 100%;
-            margin: 0;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
-        }
+      body {
+          height: 100%;
+          margin: 0;
+          overflow: hidden;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          background-color: #f0f0f0;
+          font-family: Arial, sans-serif;
+      }
 
-        iframe {
-            /* This negative values are added to fix the iframe margins in main page.*/
-            position: absolute;
-            top: -8px;
-            left: -8px;
-            width: calc(100% + 16px);
-            height: calc(100% + 16px);
-            border: none;
-        }
+      iframe {
+          /* This negative values are added to fix the iframe margins in main page.*/
+          position: absolute;
+          top: -8px;
+          left: -8px;
+          width: calc(100% + 16px);
+          height: calc(100% + 16px);
+          border: none;
+      }
 
-        #streamSelector {
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            padding: 3px;
-            font-size: 16px;
-            border: 1px solid #9a9898;
-            border-radius: 8%;
-            background-color: rgb(255, 255, 255);
-            color: #333;
-            /* appearance: none; */
-            cursor: pointer;
-            outline: none;
-        }
+      #streamSelector {
+          position: absolute;
+          top: 10px;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 1000;
+          padding: 3px;
+          font-size: 16px;
+          border: 1px solid #9a9898;
+          border-radius: 8%;
+          background-color: rgb(255, 255, 255);
+          color: #333;
+          /* appearance: none; */
+          cursor: pointer;
+          outline: none;
+      }
 
-        #streamSelector:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        }
+      #streamSelector:focus {
+          border-color: #007bff;
+          box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+      }
 
-        .hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
+      .hidden {
+          opacity: 0;
+          pointer-events: none;
+      }
 
-        #overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 9999;
-            /* Ensure it's above other content */
-            pointer-events: all;
-            /* Make sure it captures events */
-        }
+      #overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 9999;
+          /* Ensure it's above other content */
+          pointer-events: all;
+          /* Make sure it captures events */
+      }
     </style>
     <script>
-        const Main_Link = "https://giridharsalana.netlify.app";
-        const INACTIVITY_TIMEOUT = 5000;
+      const Main_Link = "https://giridharsalana.netlify.app";
+      const INACTIVITY_TIMEOUT = 5000;
 
-        function loadStream() {
-            var savedStream = localStorage.getItem("selectedStream");
-            return savedStream || Main_Link;
-        }
+      function loadStream() {
+        var savedStream = localStorage.getItem("selectedStream");
+        return savedStream || Main_Link;
+      }
 
-        document.addEventListener("DOMContentLoaded", function () {
-            const iframe = document.getElementById("live");
-            const selector = document.getElementById("streamSelector");
-            const overlay = document.getElementById("eventOverlay");
-            const stream = loadStream();
-            iframe.src = stream;
-            selector.value = stream;
+      document.addEventListener("DOMContentLoaded", function () {
+        const iframe = document.getElementById("live");
+        const selector = document.getElementById("streamSelector");
+        const overlay = document.getElementById("eventOverlay");
+        const stream = loadStream();
+        iframe.src = stream;
+        selector.value = stream;
 
-            let inactivityTimeout;
+        let inactivityTimeout;
 
-            const resetInactivityTimeout = () => {
-                // Show the selector on activity
-                selector.classList.remove("hidden");
+        const resetInactivityTimeout = () => {
+          // Show the selector on activity
+          selector.classList.remove("hidden");
 
-                // Clear previous timeout
-                if (inactivityTimeout) {
-                    clearTimeout(inactivityTimeout);
-                }
+          // Clear previous timeout
+          if (inactivityTimeout) {
+            clearTimeout(inactivityTimeout);
+          }
 
-                // Set a timeout to hide the selector
-                inactivityTimeout = setTimeout(() => {
-                    selector.classList.add("hidden");
-                }, INACTIVITY_TIMEOUT);
-            };
+          // Set a timeout to hide the selector
+          inactivityTimeout = setTimeout(() => {
+            selector.classList.add("hidden");
+          }, INACTIVITY_TIMEOUT);
+        };
 
-            // Add event listeners for activity detection
-            const activityEvents = [
-                "mousemove",
-                "mousedown",
-                "mouseup",
-                "wheel",
-                "keydown",
-                "keyup",
-                "keypress",
-                "touchstart",
-                "touchmove",
-                "touchend"
-            ];
+        // Add event listeners for activity detection
+        const activityEvents = [
+          "mousemove",
+          "mousedown",
+          "mouseup",
+          "wheel",
+          "keydown",
+          "keyup",
+          "keypress",
+          "touchstart",
+          "touchmove",
+          "touchend"
+        ];
 
-            activityEvents.forEach((event) => {
-                overlay.addEventListener(event, resetInactivityTimeout);
-            });
-
-            // Initialize timeout
-            resetInactivityTimeout();
+        activityEvents.forEach((event) => {
+          overlay.addEventListener(event, resetInactivityTimeout);
         });
 
-        document.addEventListener("DOMContentLoaded", function () {
-            var iframe = document.getElementById("live");
-            var selector = document.getElementById("streamSelector");
-            var stream = loadStream();
-            iframe.src = stream;
-            selector.value = stream;
+        // Initialize timeout
+        resetInactivityTimeout();
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        const iframe = document.getElementById("live");
+        const selector = document.getElementById("streamSelector");
+        const overlay = document.getElementById("eventOverlay");
+        const stream = loadStream();
+        iframe.src = stream;
+        selector.value = stream;
+
+        let inactivityTimeout;
+
+        const resetInactivityTimeout = () => {
+          // Show the selector on activity
+          selector.classList.remove("hidden");
+
+          // Clear previous timeout
+          if (inactivityTimeout) {
+            clearTimeout(inactivityTimeout);
+          }
+
+          // Set a timeout to hide the selector
+          inactivityTimeout = setTimeout(() => {
+            selector.classList.add("hidden");
+          }, INACTIVITY_TIMEOUT);
+        };
+
+        // Add event listeners to the overlay for activity detection
+        const activityEvents = [
+          "mousemove",
+          "mousedown",
+          "mouseup",
+          "wheel",
+          "keydown",
+          "keyup",
+          "keypress",
+          "touchstart",
+          "touchmove",
+          "touchend"
+        ];
+
+        activityEvents.forEach((event) => {
+          overlay.addEventListener(event, resetInactivityTimeout);
         });
 
-        function changeStream() {
-            var selector = document.getElementById("streamSelector");
-            var iframe = document.getElementById("live");
-            var selectedStream = selector.value;
-            iframe.src = selectedStream;
-            localStorage.setItem("selectedStream", selectedStream);
-        }
+        // Initialize timeout
+        resetInactivityTimeout();
+      });
 
+      document.addEventListener("DOMContentLoaded", function () {
+        var iframe = document.getElementById("live");
+        var selector = document.getElementById("streamSelector");
+        var stream = loadStream();
+        iframe.src = stream;
+        selector.value = stream;
+      });
+
+      function changeStream() {
+        var selector = document.getElementById("streamSelector");
+        var iframe = document.getElementById("live");
+        var selectedStream = selector.value;
+        iframe.src = selectedStream;
+        localStorage.setItem("selectedStream", selectedStream);
+      }
     </script>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="eventOverlay"></div>
     <select id="streamSelector" onchange="changeStream()">
-        <option value="https://cdn.crichdplays.ru/embed2.php?id=starsp">
-            Star Sports - Eng
-        </option>
-        <!--         <option value="https://stream.crichd.vip/update/star1hi.php">Star Sports - Hin</option> -->
-        <option value="https://cdn.crichdplays.ru/embed2.php?id=willow">
-            Willow Cricket
-        </option>
-        <!--         <option value="https://stream.crichd.vip/update/ptv.php">PTV Sports</option> -->
-        <option value="https://cdn.crichdplays.ru/embed2.php?id=astrocric">
-            Astro Cricket
-        </option>
+      <option value="https://cdn.crichdplays.ru/embed2.php?id=starsp">
+        Star Sports - Eng
+      </option>
+      <!--         <option value="https://stream.crichd.vip/update/star1hi.php">Star Sports - Hin</option> -->
+      <option value="https://cdn.crichdplays.ru/embed2.php?id=willow">
+        Willow Cricket
+      </option>
+      <!--         <option value="https://stream.crichd.vip/update/ptv.php">PTV Sports</option> -->
+      <option value="https://cdn.crichdplays.ru/embed2.php?id=astrocric">
+        Astro Cricket
+      </option>
     </select>
 
-    <iframe id="live" src="https://giridharsalana.netlify.app"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-</body>
-
+    <iframe
+      id="live"
+      src="https://giridharsalana.netlify.app"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      webkitallowfullscreen
+      mozallowfullscreen
+      allowfullscreen
+    ></iframe>
+  </body>
 </html>
