@@ -142,6 +142,8 @@
           // Show the selector on activity
           selector.classList.remove("hidden");
 
+          positionOverlay();
+
           // Clear previous timeout
           if (inactivityTimeout) {
             clearTimeout(inactivityTimeout);
