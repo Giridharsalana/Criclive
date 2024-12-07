@@ -57,17 +57,15 @@
           pointer-events: none;
       }
 
-      #overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          z-index: 9999;
-          /* Ensure it's above other content */
-          pointer-events: all;
-          /* Make sure it captures events */
-      }
+      #eventOverlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 999; /* Ensure it's above the iframe but below the selector */
+        }
     </style>
     <script>
       const Main_Link = "https://giridharsalana.netlify.app";
