@@ -58,11 +58,26 @@
       }
 
       #eventOverlay {
-            position: absolute;
-            z-index: 999; /* Below the selector */
-            background: transparent; /* Transparent overlay */
-            pointer-events: none;
-        }
+          position: absolute;
+          width: 50%;
+          /* 50% of viewport width */
+          height: 50%;
+          /* 50% of viewport height */
+          top: 50%;
+          /* Center vertically */
+          left: 50%;
+          /* Center horizontally */
+          transform: translate(-50%, -50%);
+          /* Adjust for element's dimensions */
+          background-color: rgba(0, 0, 0, 0.5);
+          /* Semi-transparent background */
+          z-index: 999;
+          /* Above other content but below selector */
+          pointer-events: none;
+          /* Prevent interfering with user interactions */
+          border: 2px solid #fff;
+          /* Optional for better visibility */
+      }
     </style>
     <script>
       const Main_Link = "https://giridharsalana.netlify.app";
@@ -82,15 +97,6 @@
         selector.value = stream;
 
         let inactivityTimeout;
-
-        // Function to position the overlay exactly over the stream selector
-        function positionOverlay() {
-          const rect = selector.getBoundingClientRect();
-          overlay.style.width = `${rect.width}px`;
-          overlay.style.height = `${rect.height}px`;
-          overlay.style.top = `${rect.top}px`;
-          overlay.style.left = `${rect.left}px`;
-        }
 
         const resetInactivityTimeout = () => {
           // Show the selector on activity
@@ -141,8 +147,6 @@
         const resetInactivityTimeout = () => {
           // Show the selector on activity
           selector.classList.remove("hidden");
-
-          positionOverlay();
 
           // Clear previous timeout
           if (inactivityTimeout) {
